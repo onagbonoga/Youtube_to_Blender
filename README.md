@@ -15,6 +15,7 @@ To install
 
 ## Usage
 The YT2MP3 tab is accessible from the "Video Sequencer" properties menu. Press "N" on your keyboard to vie/ hide the properties menu 
+![usage](https://github.com/onagbonoga/Youtube_to_Blender/blob/main/img1.png)
 
 ## Additional Information
 This addon uses the pytube library to download from youtube and if you dont have it, it will be automatically installed
