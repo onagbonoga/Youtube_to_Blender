@@ -1,3 +1,21 @@
+'''
+Copyright (C) 2023 Nurudeen Agbonoga
+
+Created by Nurudeen Agbonoga
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+'''
 import bpy
 from .YT2B_Download import YT2B_Download
 
@@ -5,6 +23,9 @@ bl_info = {
     "name": "Youtube to Blender",
     "blender": (3,4,1),
     "category": "Import-Export",
+    "version": (1,0),
+    "description": "Download youtube audio directly into the blender video sequencer",
+    "location": "SEQUENCE_EDITOR > Properties tab"
 }
 
 # define operator for YT2B functionality
@@ -75,13 +96,6 @@ class YT2B_PT_view(bpy.types.Panel):
         icon = "IMPORT")
 
 def register():
-    import subprocess
-    import ensurepip
-    import sys
-    ensurepip.bootstrap()
-    pybin = sys.executable
-    subprocess.check_call([pybin, '-m', 'pip', 'install', 'pytube','--user'])
-    
 
     # register custom property to accept user input as URL
     bpy.types.Scene.yt2b_url = bpy.props.StringProperty(name="")

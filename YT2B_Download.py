@@ -3,14 +3,17 @@ import subprocess
 import ensurepip
 import sys
 import site
+
+# import pytube module
 ensurepip.bootstrap()
 pybin = sys.executable
-
 user_site_dir = site.USER_SITE
 cmd = [pybin, "-m", "pip", "install", "--user", "pytube"]
+
 # Run the pip command in a shell
 subprocess.run(cmd, check=True)
-# add user site to path
+
+# add user site to path. This is so blenders version of python can access user modules
 sys.path.append(user_site_dir)
 
 import pytube
@@ -18,7 +21,11 @@ import pytube
 def YT2B_Download(url):
     '''
     Download audio from youtube video 
-    :param url - URL of video to be downloaded. This has to be a youtube url 
+    :param url: URL of video to be downloaded. This has to be a youtube url 
+    :returns: File name of the youtube video to be downloaded and the status 
+        which can be "YT2B_UNABLE_TO_DOWNLOAD", "YT2B_FILE_EXISTS" 
+        or "YT2B_DOWNLOADED"
+    :rtype: tuple 
     '''
     try:
         yt = pytube.YouTube(url)
@@ -45,7 +52,7 @@ def YT2B_Download(url):
 
         
         os.rename(out_file, new_file)
-        return fileName, "DOWNLOADED"
+        return fileName, "YT2B_DOWNLOADED"
     
     
         
