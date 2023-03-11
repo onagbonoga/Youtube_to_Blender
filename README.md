@@ -14,7 +14,8 @@ To install
 - Enable the Addon
 
 ## Usage
-The YT2MP3 tab is accessible from the "Video Sequencer" properties menu. Press "N" on your keyboard to vie/ hide the properties menu 
+The YT2MP3 tab is accessible from the "Video Sequencer" properties menu. Press "N" on your keyboard to view/ hide the properties menu.
+The .mp3 files are saved in your downloads folder!
 ![usage](https://github.com/onagbonoga/Youtube_to_Blender/blob/main/img1.png)
 
 ## Additional Information

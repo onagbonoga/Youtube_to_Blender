@@ -25,7 +25,7 @@ bl_info = {
     "category": "Import-Export",
     "version": (1,0),
     "description": "Download youtube audio directly into the blender video sequencer",
-    "location": "SEQUENCE_EDITOR > Properties tab"
+    "location": "Video Sequence Editor > Properties tab"
 }
 
 # define operator for YT2B functionality
