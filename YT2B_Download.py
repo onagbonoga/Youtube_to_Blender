@@ -61,9 +61,6 @@ def YT2B_Download(url, onlyAudio):
         else:
             # extract only audio and download the file
             out_file = yt.streams.filter(only_audio=True).first().download(folderName)
-            # save the file
-            base, ext = os.path.splitext(out_file)
-            new_file = base + '.mp3'
     
     else: # downlaod video and audio
         title = clean_up_title(yt.title)
@@ -75,10 +72,8 @@ def YT2B_Download(url, onlyAudio):
         
         else:
             out_file = yt.streams.get_highest_resolution().download(folderName)
-            base, ext = os.path.splitext(out_file)
-            new_file = base + '.mp3'
         
 
-        
+    # rename the file
     os.rename(out_file, fileName)
     return fileName, "YT2B_DOWNLOADED"
