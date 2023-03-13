@@ -16,23 +16,24 @@ Created by Nurudeen Agbonoga
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
-import bpy
-from .YT2B_Download import YT2B_Download
 
 bl_info = {
     "name": "Youtube to Blender",
     "blender": (3,4,1),
     "category": "Import-Export",
     "version": (1,0),
-    "description": "Download youtube audio directly into the blender video sequencer",
+    "description": "Download youtube video or audio directly into the blender video sequencer",
     "location": "Video Sequence Editor > Properties tab"
 }
 
-# define operator for YT2B functionality
-class YT2B_OT_function(bpy.types.Operator):
-    '''Install youtube audio into blender VSE'''
-    bl_idname = "file.yt2b"
-    bl_label = "youtube to blender"
+import bpy
+from .YT2B_Download import YT2B_Download
+
+# define operator for YT2B audio download
+class YT2B_OT_Download_Audio(bpy.types.Operator): 
+    '''Download youtube audio into blender VSE'''
+    bl_idname = "file.yt2b_audio"
+    bl_label = "youtube to blender download audio"
     bl_options = {'REGISTER'}
     
     def execute(self, context): # runs when called
@@ -41,21 +42,22 @@ class YT2B_OT_function(bpy.types.Operator):
         if channel < 1 or channel > 128:
             channel = 1
         url = bpy.context.scene.yt2b_url
-        fileName, status = YT2B_Download(url)
+        fileName, status = YT2B_Download(url, True)
+        stripName = "A" + url
         
-        if status == "DOWNLOADED": # add to vse if a new file was downloaded
+        if status == "YT2B_DOWNLOADED": # add to vse if a new file was downloaded
             # add sound strip to VSE
             if not context.scene.sequence_editor:
                 context.scene.sequence_editor_create()
             
-            soundStrip = context.scene.sequence_editor.sequences.new_sound(url, 
+            context.scene.sequence_editor.sequences.new_sound(stripName, 
             fileName, channel,1)
 
         elif status == "YT2B_FILE_EXISTS":
             # check if strip is already in VSE
             found_strip = False
             for strip in bpy.context.scene.sequence_editor.sequences:
-                if strip.name == url:
+                if strip.name == stripName:
                     found_strip = True
                     break
             if found_strip == False:
@@ -63,8 +65,55 @@ class YT2B_OT_function(bpy.types.Operator):
                 if not context.scene.sequence_editor:
                     context.scene.sequence_editor_create()
                 
-                soundStrip = context.scene.sequence_editor.sequences.new_sound(url, 
-                fileName, channel,1)
+                context.scene.sequence_editor.sequences.new_sound(stripName, 
+                    fileName, channel,1)
+        elif status == "YT2B_UNABLE_TO_DOWNLOAD":
+            print("was unable to download strip")
+        return {'FINISHED'}
+    
+# define operator for YT2B video download
+class YT2B_OT_Download_Video(bpy.types.Operator):
+    '''Download youtube video into blender VSE'''
+    bl_idname = "file.yt2b_video"
+    bl_label = "youtube to blender download video"
+    bl_options = {'REGISTER'}
+    
+    def execute(self, context): # runs when called
+        # download audio strip
+        channel = bpy.context.scene.yt2b_channel
+        if channel < 1 or channel > 128:
+            channel = 1
+        url = bpy.context.scene.yt2b_url
+        fileName, status = YT2B_Download(url, False)
+        stripName = "V" + url
+        
+        if status == "YT2B_DOWNLOADED": # add to vse if a new file was downloaded
+            # add sound strip to VSE
+            if not context.scene.sequence_editor:
+                context.scene.sequence_editor_create()
+            
+            #soundStrip = context.scene.sequence_editor.sequences.new_movie(stripName, 
+            #fileName, channel,1)
+            movie = bpy.ops.sequencer.movie_strip_add(filepath=fileName, 
+                channel=channel, frame_start=1, sound=True)
+
+        elif status == "YT2B_FILE_EXISTS":
+            # check if strip is already in VSE
+            found_strip = False
+            
+            for strip in bpy.context.scene.sequence_editor.sequences:
+                if strip.name == stripName:
+                    found_strip = True
+                    break
+            if found_strip == False:
+                # add sound strip to VSE
+                if not context.scene.sequence_editor:
+                    context.scene.sequence_editor_create()
+                
+                movie = bpy.ops.sequencer.movie_strip_add(filepath=fileName, 
+                channel=channel, frame_start=1, sound=True)
+                      
+                
         else:
             print("was unable to download strip")
         return {'FINISHED'}
@@ -87,7 +136,10 @@ class YT2B_PT_view(bpy.types.Panel):
         row = self.layout.row()
         row.prop(context.scene, "yt2b_channel")
         
-        self.layout.operator("file.yt2b", text = "Download Audio",
+        self.layout.operator("file.yt2b_audio", text = "Download only Audio",
+        icon = "IMPORT")
+
+        self.layout.operator("file.yt2b_video", text = "Download Video and Audio",
         icon = "IMPORT")
 
 def register():
@@ -97,11 +149,13 @@ def register():
     bpy.types.Scene.yt2b_channel = bpy.props.IntProperty(name="", default = 1)
     
     # register operator and panel for the addon
-    bpy.utils.register_class(YT2B_OT_function)
+    bpy.utils.register_class(YT2B_OT_Download_Audio)
+    bpy.utils.register_class(YT2B_OT_Download_Video)
     bpy.utils.register_class(YT2B_PT_view)
 
 def unregister():
     # register operator and panel for the addon
-    bpy.utils.unregister_class(YT2B_OT_function)
+    bpy.utils.unregister_class(YT2B_OT_Download_Audio)
+    bpy.utils.unregister_class(YT2B_OT_Download_Video)
     bpy.utils.unregister_class(YT2B_PT_view)
     print("Thank you for using Youtube to Blender!")

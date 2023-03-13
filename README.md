@@ -1,6 +1,7 @@
 # Youtube_to_Blender
-download audio from youtube videos directly into blender's VSE as an audio strip. If there are any issues or feature requests use the Issues tab at the tob of this page
-to let me know!
+## About 
+Youtube to blender is a tool I created to simplify adding youtube videos or just audio from youtube videos to blender without visiting any sketchy "youtube to mp3" websites. 
+I hope you find this add on useful! If there are any issues or feature requests use the Issues tab on the github page to let me know! https://github.com/onagbonoga/Youtube_to_Blender/issues 
 
 ## Support
 This addon was developed in blender 3.41
@@ -21,6 +22,4 @@ The .mp3 files are saved in your downloads folder!
 ## Additional Information
 This addon uses the pytube library to download from youtube and if you dont have it, it will be automatically installed
 
-## About 
-Youtube to blender is a tool I created to simplify adding audio from youtube videos to blender without visiting any sketchy "youtube to mp3" websites. 
-I hope you find this add on useful! 
+
