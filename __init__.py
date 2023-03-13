@@ -35,11 +35,6 @@ class YT2B_OT_function(bpy.types.Operator):
     bl_label = "youtube to blender"
     bl_options = {'REGISTER'}
     
-    video_url: bpy.props.StringProperty(
-    name = "video_url",
-    description = "url for the video you wish to download",
-    )
-    
     def execute(self, context): # runs when called
         # download sound strip
         channel = bpy.context.scene.yt2b_channel
@@ -99,7 +94,7 @@ def register():
 
     # register custom property to accept user input as URL
     bpy.types.Scene.yt2b_url = bpy.props.StringProperty(name="")
-    bpy.types.Scene.yt2b_channel = bpy.props.IntProperty(name="")
+    bpy.types.Scene.yt2b_channel = bpy.props.IntProperty(name="", default = 1)
     
     # register operator and panel for the addon
     bpy.utils.register_class(YT2B_OT_function)
