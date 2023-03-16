@@ -19,7 +19,7 @@ The YT2MP3 tab is accessible from the "Video Sequencer" properties menu. Press "
 The .mp3 files are saved in your downloads folder!
 ![usage](https://github.com/onagbonoga/Youtube_to_Blender/blob/main/img1.png)
 
-## Additional Information
+## Dependencies
 This addon uses the pytube library to download from youtube and if you dont have it, it will be automatically installed
 
 
