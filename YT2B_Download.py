@@ -1,22 +1,12 @@
 import os
-import subprocess
-import ensurepip
 import sys
 import site
 
-# import pytube module
-ensurepip.bootstrap()
-pybin = sys.executable
 user_site_dir = site.USER_SITE
-cmd = [pybin, "-m", "pip", "install", "--user", "pytube"]
-
-# Run the pip command in a shell
-subprocess.run(cmd, check=True)
 
 # add user site to path. This is so blenders version of python can access user modules
 sys.path.append(user_site_dir)
-
-import pytube
+from .pytube.__main__ import YouTube
 
 def clean_up_title(title):
     '''
@@ -41,7 +31,7 @@ def YT2B_Download(url, onlyAudio):
     '''
     
     try:
-        yt = pytube.YouTube(url)
+        yt = YouTube(url)
     except:
         print(f'Video {url} is unable to be downloaded')
         return " ", "YT2B_UNABLE_TO_DOWNLOAD"
